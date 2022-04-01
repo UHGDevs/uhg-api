@@ -1,1 +1,1 @@
-exports.Api = require('./Api');
+exports.Client = require('./Client');
