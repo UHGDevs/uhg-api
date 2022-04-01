@@ -1,4 +1,6 @@
 
+const { register } = require('./UHGError');
+
 const Messages = {
   INVALID_TYPE: (name, expected, an = false) => `Supplied ${name} is not a${an ? 'n' : ''} ${expected}.`,
 
