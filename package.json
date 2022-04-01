@@ -1,0 +1,6 @@
+{
+  "name": "uhg-api",
+  "version": "0.0.0",
+  "description": "Hypixel API handler for UHG",
+  "main": "./src/index.js"
+}
