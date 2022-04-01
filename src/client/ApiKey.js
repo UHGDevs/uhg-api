@@ -1,6 +1,7 @@
 
 const { Error } = require('../errors')
 const EventEmitter = require('events');
+const fetch = require('node-fetch');
 
 class ApiKey extends EventEmitter {
   constructor(options) {
@@ -18,7 +19,7 @@ class ApiKey extends EventEmitter {
     this.key_count = 0
 
     if (typeof options.key === 'string') {
-      this.key = options.key
+      this.key = [options.key]
       this.key_count = 1
     } else {
       this.key_count = options.key.length
@@ -32,11 +33,17 @@ class ApiKey extends EventEmitter {
     this.options = options
 
     this.test()
-
   }
 
-  test() {
-
+  async test() {
+    for (let key of this.key) {
+      const result = await fetch(`http://api.hypixel.net/key?key=${key}`);
+      const data = await response.json();
+      if (!data.success) {
+        throw new Error('API_KEY_INVALIDE', key);
+      }
+      console.log(data)
+    }
   }
 }
 
