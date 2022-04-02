@@ -25,8 +25,6 @@ class ApiKey extends EventEmitter {
       if (options.key.length !== this.key_count) throw new Error('API_KEY_COUNT', this.key_count, options.key.length);
     }
 
-    this.options = options
-
     this.test()
   }
 
