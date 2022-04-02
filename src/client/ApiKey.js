@@ -9,7 +9,7 @@ class ApiKey extends EventEmitter {
 
     if (typeof options !== 'object' || options === null) throw new Error('INVALID_TYPE', 'options', 'object', true);
     if (options.key === undefined) throw new Error('API_KEY_MISSING');
-    if (typeof options.key !== 'string' || (typeof options.key !== 'object' && !Array.isArray(options.key) && !options.key.length)) throw new Error('INVALID_TYPE', 'API key', 'string or an array');
+    if (typeof options.key !== 'string' && !(typeof options.key === 'object' && Array.isArray(options.key) && options.key.length)) throw new Error('INVALID_TYPE', 'API key', 'string or an array');
 
 
     this.key = null
@@ -20,9 +20,9 @@ class ApiKey extends EventEmitter {
       this.key_count = 1
     } else {
       this.key_count = options.key.length
-      options.key = options.key.filter(key => typeof key === 'string')
+      this.key = options.key.filter(key => typeof key === 'string')
 
-      if (option.key.length !== this.key_count) throw new Error('API_KEY_COUNT', this.key_count, options.key.length);
+      if (options.key.length !== this.key_count) throw new Error('API_KEY_COUNT', this.key_count, options.key.length);
     }
 
     this.options = options

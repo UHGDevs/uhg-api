@@ -6,7 +6,7 @@ class Client extends ApiKey {
   constructor(options = {}) {
     super(options);
 
-    
+    console.log(this.keys)
 
   }
 }
