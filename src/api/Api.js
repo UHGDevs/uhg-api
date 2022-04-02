@@ -19,7 +19,9 @@ class Api extends CreateUser {
 
     if (launch.type !== 'mojang') api[launch.type] = launch
 
-
+    options.client = this.client
+    options.uuid = api.uuid
+    
 
     const calls = options.call.filter(n => n.toLowerCase() !== 'mojang');
     let promises = []
@@ -27,7 +29,7 @@ class Api extends CreateUser {
       let fetcher = this.client.calls.get(call.toLowerCase())
       if (!fetcher) return resolve ({ success: false, reason: `${call} is invalide name of api`})
 
-      promises.push( require(`./${call}`).call({ uuid: api.uuid }) );
+      promises.push( require(`./${call}`).call(options) );
     }
 
     promises = await Promise.all(promises);

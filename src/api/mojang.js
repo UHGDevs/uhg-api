@@ -4,7 +4,8 @@ const fetch = require('node-fetch');
 
 class Mojang {
 
-  static async call(input) {
+  static async call(options) {
+    const input = options.username || options.uuid || options.user
     let mojang;
     try {
 

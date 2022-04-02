@@ -3,7 +3,7 @@ const Mojang = require('../api/mojang');
 class CreateUser {
   constructor(options) {
     this.client = options.client
-    let user = Mojang.call(options.user)
+    let user = Mojang.call(options)
     this.ready = user
     user.then(user => {
       this.success = user.success

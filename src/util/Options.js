@@ -4,7 +4,8 @@ class Options {
   static createDefault() {
     return {
       limit: 120,
-      guildBot: false
+      guildBot: false,
+      currentTourney: null
     };
   }
 
