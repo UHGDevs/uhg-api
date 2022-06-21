@@ -56,6 +56,24 @@ class ApiFunctions {
     return rankColor || rankColorMC;
   }
 
+  static getBuildBattle(score) {
+    let title = 'Rookie'
+
+    if (score >= 20000) title = 'Master';
+    else if (score >= 15000) title = 'Expert';
+    else if (score >= 10000) title = 'Professional';
+    else if (score >= 7500) title = 'Talented';
+    else if (score >= 5000) title = 'Skilled';
+    else if (score >= 3500) title = 'Trained';
+    else if (score >= 2000) title = 'Seasoned';
+    else if (score >= 1500) title = 'Experienced';
+    else if (score >= 500) title = 'Apprentice';
+    else if (score >= 250) title = 'Amateur';
+    else if (score >= 100) title = 'Untrained';
+
+    return title
+  }
+
 }
 
 module.exports = ApiFunctions
