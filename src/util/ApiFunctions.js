@@ -56,6 +56,32 @@ class ApiFunctions {
     return rankColor || rankColorMC;
   }
 
+  static getBwExpForLevel(level) {
+    var progress = level % 100
+    if (progress > 3) return 5000;
+    return {
+      0: 500,
+      1: 1000,
+      2: 2000,
+      3: 3500
+    }[progress]
+  }
+
+  static getBwLevel(exp = 0) {
+    var prestiges = Math.floor(exp / 487000);
+    var level = prestiges * 100;
+    var remainingExp = exp - (prestiges * 487000);
+
+    for (let i = 0; i < 4; ++i) {
+        var expForNextLevel = this.getBwExpForLevel(i)
+        if (remainingExp < expForNextLevel) break;
+        level++
+        remainingExp -= expForNextLevel
+    }
+
+    return parseFloat((level + (remainingExp / 5000)).toFixed(2))
+  }
+
   static getBuildBattle(score) {
     let title = 'Rookie'
 
@@ -72,6 +98,45 @@ class ApiFunctions {
     else if (score >= 100) title = 'Untrained';
 
     return title
+  }
+
+  static getGamemode(mode) {
+    if (!mode) return
+    return mode
+        .replace(/bedwars_eight_one/g, "Bed Wars Solo")
+        .replace(/bedwars_eight_two/g, "Bed Wars Doubles")
+        .replace(/bedwars_four_three/g, "Bed Wars 3s")
+        .replace(/bedwars_four_four/g, "Bed Wars 4s")
+        .replace(/bedwars_two_four/g, "Bed Wars 4v4")
+        .replace(/bedwars_castle/g, "Bed Wars Castle 40v40")
+        .replace(/bedwars_four_four_armed/g, "Bed Wars Armed 4s")
+        .replace(/bedwars_eight_two_armed/g, "Bed Wars Armed Doubles")
+        .replace(/bedwars_four_four_voidless/g, "Bed Wars Voidless 4s")
+        .replace(/bedwars_eight_two_voidless/g, "Bed Wars Voidless Doubles")
+        .replace(/bedwars_four_four_lucky/g, "Bed Wars Lucky Blocks 4s")
+        .replace(/bedwars_eight_two_lucky/g, "Bed Wars Lucky Blocks Doubles")
+        .replace(/bedwars_eight_two_ultimate/g, "Bed Wars Ultimate Doubles")
+        .replace(/bedwars_four_four_ultimate/g, "Bed Wars Ultimate 4s")
+        .replace(/bedwars_four_four_rush/g, "Bed Wars Rush 4s")
+        .replace(/bedwars_eight_two_rush/g, "Bed Wars Rush Doubles")
+
+        .replace(/skywars_solo_normal/g, "SkyWars Solo Normal")
+        .replace(/skywars_solo_insane/g, "SkyWars Solo Insane")
+        .replace(/skywars_teams_normal/g, "SkyWars Teams Normal")
+        .replace(/skywars_teams_insane/g, "SkyWars Teams Insane")
+        .replace(/skywars_ranked/g, "Ranked SkyWars")
+        .replace(/skywars_normalmega/g, "SkyWars Mega")
+        .replace(/skywars_doublesmega/g, "SkyWars Doubles Mega")
+        .replace(/skywars_lab/g, "SkyWars Laboratory")
+
+        .replace(/murder_classic/g, "Murder Mystery Classic")
+        .replace(/murder_double_up/g, "Murder Mystery Double Up!")
+        .replace(/murder_showdown/g, "Murder Mystery Showdown")
+        .replace(/murder_infection/g, "Murder Mystery Infection")
+        .replace(/murder_hardcore/g, "Murder Mystery Hardcore")
+        .replace(/murder_assassins/g, "Murder Mystery Assassins")
+
+        .replace(/_/g, " ")
   }
 
 }
