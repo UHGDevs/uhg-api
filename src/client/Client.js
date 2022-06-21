@@ -14,10 +14,6 @@ class Client extends ApiKey {
 
     this.version = '0.0.0';
 
-    options.key = this.key
-    options.key_count = this.key_count
-
-    this.options = Util.mergeSettings(Options.createDefault(), options);
 
     this.users = new Collection()
     this.aliases = new Collection()
@@ -37,7 +33,6 @@ class Client extends ApiKey {
 
     input = input.toLowerCase();
     let user = this.users.get(input) || this.users.get(this.aliases.get("input"));
-
     if (!user) {
       options.user = input
       options.client = this

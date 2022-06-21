@@ -1,56 +1,52 @@
 
 const { Error } = require('../errors')
 const EventEmitter = require('events');
+const Util = require('../util/Util');
+const Options = require('../util/Options');
 const fetch = require('node-fetch');
 
 class ApiKey extends EventEmitter {
   constructor(options) {
     super();
+    this.options = Util.mergeSettings(Options.createDefault(), options);
 
-    this.key_uses = 0
+    if (typeof this.options !== 'object' || this.options === null) throw new Error('INVALID_TYPE', 'options', 'object', true);
+    if (!this.options.key.length) throw new Error('API_KEY_MISSING');
+    if (typeof this.options.key !== 'string' && !(typeof this.options.key === 'object' && Array.isArray(this.options.key) && this.options.key.length)) throw new Error('INVALID_TYPE', 'API key', 'string or an array');
 
-    if (typeof options !== 'object' || options === null) throw new Error('INVALID_TYPE', 'options', 'object', true);
-    if (options.key === undefined) throw new Error('API_KEY_MISSING');
-    if (typeof options.key !== 'string' && !(typeof options.key === 'object' && Array.isArray(options.key) && options.key.length)) throw new Error('INVALID_TYPE', 'API key', 'string or an array');
-
-
-    this.key = null
-    this.key_count = 0
-
-    this.use_key = 0
-
-    if (typeof options.key === 'string') {
-      this.key = [options.key]
-      this.key_count = 1
+    if (typeof this.options.key === 'string') {
+      this.options.key = [this.options.key]
+      this.options.key_count = 1
     } else {
-      this.key_count = options.key.length
-      this.key = options.key.filter(key => typeof key === 'string')
+      this.options.key_count = this.options.key.length
+      this.options.key = this.options.key.filter(key => typeof key === 'string')
 
-      if (options.key.length !== this.key_count) throw new Error('API_KEY_COUNT', this.key_count, options.key.length);
+      if (this.options.key.length !== this.options.key_count) throw new Error('API_KEY_COUNT', this.options.key_count, this.options.key.length);
     }
 
-    this.test()
+    this.testKeys()
   }
 
-  async test() {
-    //const keys = this.key
-    //this.key = []
-    // for (let key of keys) {
-    //   try {
-    //     const response = await fetch(`http://api.hypixel.net/key?key=${key}`);
-    //     const data = await response.json();
-    //     if (!data.success) throw new Error('API_KEY_INVALIDE', `(${key})`);
-    //   } catch (e) {console.info("Invalid authorization of API key (Hypixel API is having hard time)")}
-    //   console.log(this.key)
-    // }
+  async testKeys() {
+    const keys = this.options.key
+    this.options.key = []
+    for (let key of keys) {
+      try {
+        const response = await fetch(`http://api.hypixel.net/key?key=${key}`);
+        const data = await response.json();
+        if (!data.success) throw new Error('API_KEY_INVALIDE', `(${key})`);
+        else this.options.key.push(key);
+      } catch (e) {console.info("Invalid authorization of API key (Hypixel API is having hard time)")}
+    }
+    if (!this.options.key.length) throw new Error('API_KEY_NOT_WORKING');
+    this.options.key_count = this.options.key.length
   }
 
   getKey() {
-    this.use_key += 1;
-    this.key_uses += 1;
-    if (this.use_key >= this.key_count) this.use_key = 0;
-    console.log(this.key)
-    return this.key[this.use_key];
+    this.options.use_key += 1;
+    this.options.key_uses += 1;
+    if (this.options.use_key >= this.options.key_count) this.options.use_key = 0;
+    return this.options.key[this.options.use_key];
   }
 
   ratelimit() {

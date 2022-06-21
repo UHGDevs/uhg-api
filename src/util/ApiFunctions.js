@@ -1,6 +1,11 @@
 
 class ApiFunctions {
 
+  static f(number, max=2) {
+    if (!Number(number)) return number
+    return Number(number).toLocaleString('en', {minimumFractionDigits: 0, maximumFractionDigits: max})
+  }
+
   static ratio(n1=0, n2=0, n3=2) {
     let options = {minimumFractionDigits: 0, maximumFractionDigits: n3};
     return Number(Number(isFinite(n1 / n2) ? + (n1 / n2) : n1).toLocaleString('en', options))

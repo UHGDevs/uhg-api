@@ -43,7 +43,6 @@ class Hypixel {
 
     const achievements = hypixel.achievements || {};
 
-    const arcade = hypixel.stats.Arcade || {};
     const arena = hypixel.stats.Arena || {};
     const bb = hypixel.stats.BuildBattle || {};
     const bedwars = hypixel.stats.Bedwars || {};
@@ -70,6 +69,7 @@ class Hypixel {
 
     api.stats = {};
     api.stats.arcade = require('./games/arcade')(hypixel.stats.Arcade)
+    api.stats.arena = require('./games/arena')(hypixel.stats.Arena)
 
 
 

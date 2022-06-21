@@ -6,7 +6,10 @@ exports.Client = require('./client/Client');
 TESTS
 */
 const Client = require('./client/Client')
-const options = {key: ["d104f7a5-10e0-4a51-a966-e8bcab7df5133", "b20aa3e5-73ec-4e33-a921-8666ec4e5ca7a"]}
+const dotenv = require('dotenv');
+dotenv.config();
+
+const options = {key: [process.env.KEY1, process.env.KEY2]}
 try {
   call()
 } catch (e) {
@@ -15,10 +18,12 @@ try {
 
 async function call() {
   const api = new Client(options)
+  await delay(2000)
   let nastaveni =  ["mojang", "hypixel"]
   let result = await api.call("DavidCzPdy", nastaveni)
   console.log(result)
   await delay(10000)
+  
    //result = api.call("DavidCzPdy", nastaveni)
 }
 
