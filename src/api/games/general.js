@@ -11,7 +11,7 @@ module.exports = (hypixel = {} , uuid) => {
     username: hypixel.displayname,
     rank: func.getRank(hypixel).rank,
     prefix: func.getRank(hypixel).prefix,
-    color: func.getPlusColor(api.rank, hypixel.rankPlusColor).hex,
+    color: func.getPlusColor(func.getRank(hypixel).rank, hypixel.rankPlusColor).hex,
     level: func.getNwLevel(hypixel.networkExp || 0),
     karma: hypixel.karma || 0,
     aps: hypixel.achievementPoints || 0,
