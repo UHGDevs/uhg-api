@@ -26,41 +26,9 @@ class Hypixel {
 
     hypixel = hypixel.player;
 
-    const api = { success: true, type: 'hypixel' };
-    api._id = uuid
-    api.uuid = uuid
-    api.username = hypixel.displayname
-
-    let rank = func.getRank(hypixel);
+    const api = require('./games/general')(hypixel, uuid)
     
-    api.rank = rank.rank;
-    api.prefix = rank.prefix;
-    api.color = func.getPlusColor(api.rank, hypixel.rankPlusColor).hex;
-
-    api.level = func.getNwLevel(hypixel.networkExp || 0);
-    api.karma = hypixel.karma || 0;
-    api.aps = hypixel.achievementPoints || 0;
-
-    api.nicks = hypixel.knownAliases || {};
-    api.links = hypixel.socialMedia ? hypixel.socialMedia.links || {} : {};
-
     const achievements = hypixel.achievements || {};
-
-    api.fishing = {
-      fish: achievements.general_master_lure || 0,
-      junk: achievements.general_trashiest_diver || 0,
-      treasure: achievements.general_luckiest_of_the_sea || 0,
-    }
-
-    api.ranksGiven =  hypixel.giftingMeta ? hypixel.giftingMeta.ranksGiven || 0 : 0
-    api.giftsGiven = hypixel.giftingMeta ? hypixel.giftingMeta.giftsGiven || 0 : 0
-    api.quests = achievements.general_quest_master || 0
-    api.challenges = achievements.general_challenger || 0
-    api.lastLogin = hypixel.lastLogin || 0
-    api.updated = Number(new Date())
-
-
-    
 
     const blitz = hypixel.stats.HungerGames || {};
     const cac = hypixel.stats.MCGO || {};
