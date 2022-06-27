@@ -9,7 +9,7 @@ const Client = require('./client/Client')
 const dotenv = require('dotenv');
 dotenv.config();
 
-const options = {key: [process.env.KEY1, process.env.KEY2]}
+const options = {key: [process.env.KEY1, process.env.KEY2], db: process.env.DB}
 try {
   call()
 } catch (e) {

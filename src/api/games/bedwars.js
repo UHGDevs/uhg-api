@@ -1,27 +1,30 @@
 
 const func = require('../../util/ApiFunctions');
 
-module.exports = (bedwars = {} , achievements = {}) => {
-  let modes = {
-    bedwars_four_three: bedwars.four_three_games_played_bedwars || 0,
-    bedwars_eight_two: bedwars.eight_two_games_played_bedwars || 0,
-    bedwars_eight_one: bedwars.eight_one_games_played_bedwars || 0,
-    bedwars_four_four: bedwars.four_four_games_played_bedwars || 0,
-    bedwars_two_four: bedwars.two_four_games_played_bedwars || 0,
-    bedwars_castle: bedwars.castle_games_played_bedwars || 0,
-    bedwars_four_four_armed: bedwars.four_four_armed_games_played_bedwars || 0,
-    bedwars_eight_two_armed: bedwars.eight_two_armed_games_played_bedwars || 0,
-    bedwars_four_four_voidless: bedwars.four_four_voidless_games_played_bedwars || 0,
-    bedwars_eight_two_voidless: bedwars.eight_two_voidless_games_played_bedwars || 0,
-    bedwars_four_four_lucky: bedwars.four_four_lucky_games_played_bedwars || 0,
-    bedwars_eight_two_lucky: bedwars.eight_two_lucky_games_played_bedwars || 0,
-    bedwars_eight_two_ultimate: bedwars.eight_two_ultimate_games_played_bedwars || 0,
-    bedwars_four_four_ultimate: bedwars.four_four_ultimate_games_played_bedwars || 0,
-    bedwars_four_four_rush: bedwars.four_four_rush_games_played_bedwars || 0,
-    bedwars_eight_two_rush: bedwars.eight_two_rush_games_played_bedwars || 0,
-  }
+module.exports = (hypixel) => {
+    const bedwars = hypixel.stats.Bedwars || {}
+    const achievements = hypixel.achievements || {}
+    let modes = {
+        bedwars_four_three: bedwars.four_three_games_played_bedwars || 0,
+        bedwars_eight_two: bedwars.eight_two_games_played_bedwars || 0,
+        bedwars_eight_one: bedwars.eight_one_games_played_bedwars || 0,
+        bedwars_four_four: bedwars.four_four_games_played_bedwars || 0,
+        bedwars_two_four: bedwars.two_four_games_played_bedwars || 0,
+        bedwars_castle: bedwars.castle_games_played_bedwars || 0,
+        bedwars_four_four_armed: bedwars.four_four_armed_games_played_bedwars || 0,
+        bedwars_eight_two_armed: bedwars.eight_two_armed_games_played_bedwars || 0,
+        bedwars_four_four_voidless: bedwars.four_four_voidless_games_played_bedwars || 0,
+        bedwars_eight_two_voidless: bedwars.eight_two_voidless_games_played_bedwars || 0,
+        bedwars_four_four_lucky: bedwars.four_four_lucky_games_played_bedwars || 0,
+        bedwars_eight_two_lucky: bedwars.eight_two_lucky_games_played_bedwars || 0,
+        bedwars_eight_two_ultimate: bedwars.eight_two_ultimate_games_played_bedwars || 0,
+        bedwars_four_four_ultimate: bedwars.four_four_ultimate_games_played_bedwars || 0,
+        bedwars_four_four_rush: bedwars.four_four_rush_games_played_bedwars || 0,
+        bedwars_eight_two_rush: bedwars.eight_two_rush_games_played_bedwars || 0,
+    }
 
-  let bw_main_mode = Object.entries(modes).reduce((a, b) => a[1] > b[1] ? a : b)[0]
+    let bw_main_mode = Object.entries(modes).reduce((a, b) => a[1] > b[1] ? a : b)[0]
+    
     return ({
       level: func.getBwLevel(bedwars.Experience),
       levelformatted: `[${Math.floor(func.getBwLevel(bedwars.Experience))}☆]`,

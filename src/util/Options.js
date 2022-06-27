@@ -7,9 +7,10 @@ class Options {
       key_count: 0,
       use_key: 0,
       key_uses: 0,
-      limit: 120,
+      limit: 0,
       guildBot: false,
-      currentTourney: null
+      currentTourney: null,
+      db: null
     };
   }
 

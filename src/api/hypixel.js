@@ -1,4 +1,6 @@
 
+const fs = require('fs');
+
 const fetch = require('node-fetch');
 const func = require('../util/ApiFunctions');
 
@@ -8,27 +10,23 @@ class Hypixel {
     const client = options.client;
 
     if (!options.uuid) return {success: false, type: "hypixel", reason: 'Hypixel API needs UUID to be called!'};
-
-    const apikey = client.getKey();
-
-    if (!apikey) return  {success: false, type: "hypixel", reason: `Hypixel API key not found`};
-    const limit = client.ratelimit();
     const uuid = options.uuid;
+    
+    const apikey = client.getKey();
+    if (!apikey) return  {success: false, type: "hypixel", reason: `Hypixel API key not found`};
 
-    if (limit === false) return {success: false, type: "hypixel", reason: 'Hypixel API key limit reached!'};
+    const limit = client.ratelimit();
+    if (limit <= 0) return {success: false, type: "hypixel", reason: 'Hypixel API key limit reached!'};
 
     let hypixel;
 
     try { hypixel = await fetch(`https://api.hypixel.net/player?key=${apikey}&uuid=${uuid}`).then(api => api.json()) } catch (e) {return {success: false, type: "hypixel", reason: 'Hypixel API is getting touble!'}};
-      console.log(apikey)
     if (!hypixel.success) return  {success: false, type: "hypixel", reason: `Hypixel API: ${hypixel.cause || 'error'}`};
     if (!hypixel.player.stats) return  {success: false, type: "hypixel", reason: `Hypixel API: Hráč nehrál žádnou minihru`};
 
     hypixel = hypixel.player;
 
     const api = require('./games/general')(hypixel, uuid)
-    
-    const achievements = hypixel.achievements || {};
 
     const blitz = hypixel.stats.HungerGames || {};
     const cac = hypixel.stats.MCGO || {};
@@ -50,15 +48,16 @@ class Hypixel {
 
     const ctourney = hypixel.tourney ? hypixel.tourney[client.options.currentTourney] || {} : {};
 
-
     api.stats = {};
-    api.stats.arcade = require('./games/arcade')(hypixel.stats.Arcade)
-    api.stats.arena = require('./games/arena')(hypixel.stats.Arena)
-    api.stats.bb = require('./games/bb')(hypixel.stats.BuildBattle)
-    api.stats.bedwars = require('./games/bedwars')(hypixel.stats.Bedwars)
+    for (let file of fs.readdirSync(`src/api/games/`).filter((file) => file.endsWith('.js') && file !== 'general')) {
+        api.stats[file] = require(`./games/${file}`) (hypixel);
+    }
 
 
+    /* UPLOAD DB HERE */
 
+    delete api._id
+    delete api.updated
     return api
   }
 }

@@ -1,8 +1,10 @@
 
 const func = require('../../util/ApiFunctions');
 
-module.exports = (bb = {} , achievements = {}) => {
-
+module.exports = (hypixel) => {
+    const bb = hypixel.stats.BuildBattle || {}
+    const achievements = hypixel.achievements || {}
+    
     return ({
         score: bb.score || 0,
         title: func.getBuildBattle(bb.score || 0),

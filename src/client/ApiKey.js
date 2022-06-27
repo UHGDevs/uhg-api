@@ -25,6 +25,7 @@ class ApiKey extends EventEmitter {
     }
 
     this.testKeys()
+    this.resetKeyTimer()
   }
 
   async testKeys() {
@@ -40,6 +41,7 @@ class ApiKey extends EventEmitter {
     }
     if (!this.options.key.length) throw new Error('API_KEY_NOT_WORKING');
     this.options.key_count = this.options.key.length
+    this.options.limit = this.options.key_count * 120 - 2
   }
 
   getKey() {
@@ -50,9 +52,17 @@ class ApiKey extends EventEmitter {
   }
 
   ratelimit() {
-    if (this.key_uses >= this.key_count * this.options.limit) return false;
-    else return this.key_count * this.options.limit - this.key_uses;
+    return this.options.limit - this.options.key_uses
   }
+  
+  async resetKeyTimer() {
+    while (true) {
+      await this.delay(60000 - (new Date().getTime() % 60000))
+      this.options.limit = this.options.key_count * 120
+    }
+  }
+
+  delay(ms) {return new Promise(res => setTimeout(res, ms))}
 }
 
 module.exports = ApiKey;

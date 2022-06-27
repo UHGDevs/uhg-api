@@ -1,8 +1,10 @@
 
 const func = require('../../util/ApiFunctions');
 
-module.exports = (arena = {} , achievements = {}) => {
-
+module.exports = (hypixel) => {
+    const arena = hypixel.stats.Arena || {}
+    const achievements = hypixel.achievements || {}
+    
     let abrating = {null: 0}
     let abposition = {null: "unknown"}
     Object.keys(arena).forEach(n=>{

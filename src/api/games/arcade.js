@@ -1,8 +1,9 @@
 
 const func = require('../../util/ApiFunctions');
 
-module.exports = (arcade = {} , achievements = {}) => {
-  
+module.exports = (hypixel) => {
+  const arcade = hypixel.stats.Arcade || {}
+  const achievements = hypixel.achievements || {}
   return ({
     coins: arcade.coins || 0,
     holeinthewall: {
