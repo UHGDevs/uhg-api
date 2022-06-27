@@ -28,8 +28,6 @@ class Hypixel {
 
     const api = require('./games/general')(hypixel, uuid)
 
-    const blitz = hypixel.stats.HungerGames || {};
-    const cac = hypixel.stats.MCGO || {};
     const duels = hypixel.stats.Duels || {};
     const murder = hypixel.stats.MurderMystery || {};
     const mw = hypixel.stats.Walls3 || {};
@@ -49,8 +47,8 @@ class Hypixel {
     const ctourney = hypixel.tourney ? hypixel.tourney[client.options.currentTourney] || {} : {};
 
     api.stats = {};
-    for (let file of fs.readdirSync(`src/api/games/`).filter((file) => file.endsWith('.js') && file !== 'general')) {
-        api.stats[file] = require(`./games/${file}`) (hypixel);
+    for (let file of fs.readdirSync(`src/api/games/`).filter((file) => file.endsWith('.js') && file !== 'general.js')) {
+        api.stats[file.split('.')[0]] = require(`./games/${file}`) (hypixel);
     }
 
 

@@ -82,6 +82,17 @@ class ApiFunctions {
     return parseFloat((level + (remainingExp / 5000)).toFixed(2))
   }
 
+  static getCaC(score) {
+    let title = 'Gray'
+    if (score >= 100000) title = 'Red';
+    else if (score >= 50000) title = 'Dark Aqua';
+    else if (score >= 20000) title = 'Gold';
+    else if (score >= 5000) title = 'Yellow';
+    else if (score >= 2500) title = 'White';
+
+    return title
+  }
+
   static getBuildBattle(score) {
     let title = 'Rookie'
 

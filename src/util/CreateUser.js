@@ -11,6 +11,7 @@ class CreateUser {
       else {
         this.username = user.username
         this.uuid = user.uuid
+        if (!user.username) console.log(user)
         this.client.users.set(user.username.toLowerCase(), this)
         this.client.aliases.set(user.uuid, user.username.toLowerCase())
       }
