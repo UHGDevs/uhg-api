@@ -5,7 +5,7 @@ const func = require('../../util/ApiFunctions');
 module.exports = (hypixel) => {
     const cac = hypixel.stats.MCGO || {};
     const achievements = hypixel.achievements || {}
-    console.log(cac.round_wins)
+    
     const api = {
       coins: cac.coins || 0,
       wins: (cac.game_wins_deathmatch || 0)+(cac.game_wins || 0)+(cac.game_wins_gungame || 0),

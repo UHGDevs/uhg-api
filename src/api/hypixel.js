@@ -28,13 +28,9 @@ class Hypixel {
 
     const api = require('./games/general')(hypixel, uuid)
 
-    const duels = hypixel.stats.Duels || {};
-    const murder = hypixel.stats.MurderMystery || {};
+    
     const mw = hypixel.stats.Walls3 || {};
     const pb = hypixel.stats.Paintball || {};
-    const pit = hypixel.stats.Pit || {};
-    const quake = hypixel.stats.Quake || {};
-    const skywars = hypixel.stats.SkyWars || {};
     const smash = hypixel.stats.SuperSmash || {};
     const speeduhc = hypixel.stats.SpeedUHC || {};
     const tkr = hypixel.stats.GingerBread || {};

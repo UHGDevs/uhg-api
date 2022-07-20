@@ -11,6 +11,27 @@ class ApiFunctions {
     return Number(Number(isFinite(n1 / n2) ? + (n1 / n2) : n1).toLocaleString('en', options))
   }
 
+  static romanize(num) {
+    if (num == 0) return 0
+    var lookup = {M:1000,CM:900,D:500,CD:400,C:100,XC:90,L:50,XL:40,X:10,IX:9,V:5,IV:4,I:1},roman = '',i;
+    for ( i in lookup ) {
+      while ( num >= lookup[i] ) {
+        roman += i;
+        num -= lookup[i];
+      }
+    }
+    return roman;
+  }
+
+  static toTime(sec, ms=false) {
+    if (ms) sec = sec/1000
+    let days = sec / 60 / 60 / 24
+    let hours = sec / 60 / 60 % 24
+    let formatted = `${Math.floor(Number(days))}d ${Math.floor(Number(hours))}h`
+    let final = {formatted:formatted, h:sec/60/60, d: sec/60/60/24, m: sec/60, s: sec}
+    return final
+  }
+
   static getNwLevel(exp) { return Math.sqrt(Number(exp) * 2 + 30625) / 50 - 2.5 }
 
   static getRank(json) {
@@ -111,6 +132,32 @@ class ApiFunctions {
     return title
   }
 
+  static getSwLevel(xp) {
+    var xps = [0, 20, 70, 150, 250, 500, 1000, 2000, 3500, 6000, 10000, 15000];
+    var exactLevel = 0
+    if (xp >= 15000) {
+          exactLevel = (xp - 15000) / 10000 + 12;
+      } else {
+        for (let i = 0; i < xps.length; i++) {
+          if (xp < xps[i]) {
+            exactLevel = i + (xp - xps[i-1]) / (xps[i] - xps[i-1]);
+            break;
+          }
+        }
+      }
+    return exactLevel;
+  }
+
+  static getSwExpLeft(xp) {
+    var xps = [0, 20, 70, 150, 250, 500, 1000, 2000, 3500, 6000, 10000, 15000]
+    if (xp >= 15000) return 10000 - ((xp - 15000) % 10000)
+    else {
+      for (let i=0; i < xps.length; i++){
+        if (xp < xps[i]) return Number((xp - xps[i]) / -1)
+      }
+    }
+  }
+
   static getGamemode(mode) {
     if (!mode) return
     return mode
@@ -150,6 +197,7 @@ class ApiFunctions {
         .replace(/_/g, " ")
   }
 
+  static clear(message) { return message.replace(/✫|✪|⚝/g, '?').replace(/§|¡±/g, '�').replace(/�[0-9A-FK-OR]/gi, '') }
 }
 
 module.exports = ApiFunctions
